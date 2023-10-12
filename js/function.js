@@ -1,20 +1,14 @@
 function checkingLength(string, length) {
-  if (string.length <= length) {
-    return true;
-  } else {
-    return false;
-  }
+  return string.length <= length;
 }
 
 function isPalindrome(string) {
-  const normalizeString = string.replaceAll().toLowerCase();
+  const normalizeString = string.replaceAll(' ', '').toLowerCase();
   let newString = '';
-  for (let i = string.length - 1; i >= 0; i--) {
-    newString += string.at(i);
+  for (let i = normalizeString.length - 1; i >= 0; i--) {
+    newString += normalizeString[i];
   }
-  if (newString === normalizeString) {
-    return true;
-  } else {
-    return false;
-  }
+  return newString === normalizeString;
 }
+
+console.log(isPalindrome('Лёша на полке клопа нашёл '));
