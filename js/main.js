@@ -27,6 +27,7 @@ const DESCRIPTIONS = [
   'Это был прекрасный день'
 ];
 const SOME_USERS = 25;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -36,37 +37,45 @@ const getRandomInteger = (a, b) => {
 
 function createRandomIdFromRangeGenerator(min, max) {
   const previousValues = [];
-
-  return function () {
-    let currentValue = getRandomInteger(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      // eslint-disable-next-line no-console
-      console.error(`Перебраны все числа из диапозона от ${min} до ${max}`);
-      return null;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min.max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
+  let currentValue = getRandomInteger(min, max);
+  if (previousValues.length >= (max - min + 1)) {
+    // eslint-disable-next-line no-console
+    console.error(`Перебраны все числа из диапозона от ${min} до ${max}`);
+    return null;
+  }
+  while (previousValues.includes(currentValue)) {
+    currentValue = getRandomInteger(min.max);
+  }
+  previousValues.push(currentValue);
+  return currentValue;
 }
 
 const getRandomArrayElement = (elements) =>
   elements[getRandomInteger(0, elements.length - 1)];
 
+function getRandomCommentArray() {
+  const commentsArray = [];
+  let object = {};
+  for (let i = 0; i < getRandomInteger(0,30); i++) {
+    object = {
+      id: createRandomIdFromRangeGenerator(1,250),
+      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+      message: getRandomArrayElement(MESSAGES),
+      name: getRandomArrayElement(NAMES)
+    };
+    commentsArray.push(object);
+  }
+  return commentsArray;
+}
+
 const createDescription = () => ({
-  id: createRandomIdFromRangeGenerator(1, 25),
-  url: `photos/${createRandomIdFromRangeGenerator(1,6)}.jpg`,
+  id: createRandomIdFromRangeGenerator(1,25),
+  url: `photos/${createRandomIdFromRangeGenerator(1,25)}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(5, 200),
-  comments: {
-    id: createRandomIdFromRangeGenerator(),
-    avatar: `img/avatar-${createRandomIdFromRangeGenerator(1, 6)}.svg`,
-    message: getRandomArrayElement(MESSAGES),
-    name: getRandomArrayElement(NAMES)
-  }
+  comments: getRandomCommentArray()
 });
 
 const someUsers = Array.from({ length: SOME_USERS}, createDescription);
 
+console.log(someUsers);
