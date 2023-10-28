@@ -68,14 +68,14 @@ function getRandomCommentArray() {
   return commentsArray;
 }
 
-const createDescription = () => ({
-  id: createRandomIdFromRangeGenerator(1,25),
+const createDescription = (index) => ({
+  id: index + 1,
   url: `photos/${createRandomIdFromRangeGenerator(1,25)}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(5, 200),
   comments: getRandomCommentArray()
 });
 
-const someUsers = Array.from({ length: SOME_USERS}, createDescription);
+const someUsers = Array.from({ length: SOME_USERS}, (_el, index) => createDescription(index));
 
 console.log(someUsers);
