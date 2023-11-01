@@ -35,8 +35,11 @@ const createIdGenerator = () => {
     return lastGenerated;
   };
 };
+
 const generateCommentId = createIdGenerator();
+
 const generatePhotoId = createIdGenerator();
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
