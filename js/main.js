@@ -28,6 +28,15 @@ const DESCRIPTIONS = [
 ];
 const SOME_USERS = 25;
 
+const createIdGenerator = () => {
+  let lastGenerated = 0;
+  return () => {
+    lastGenerated += 1;
+    return lastGenerated;
+  };
+};
+const generateCommentId = createIdGenerator();
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -58,7 +67,7 @@ function getRandomCommentArray() {
   let object = {};
   for (let i = 0; i < getRandomInteger(0,30); i++) {
     object = {
-      id: createRandomIdFromRangeGenerator(1,250),
+      id: generateCommentId(),
       avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
       message: getRandomArrayElement(MESSAGES),
       name: getRandomArrayElement(NAMES)
