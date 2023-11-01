@@ -85,6 +85,6 @@ const createDescription = (index) => ({
   comments: getRandomCommentArray()
 });
 
-const someUsers = Array.from({ length: SOME_USERS}, (_el, index) => createDescription(index));
+const someUsers = () => Array.from({ length: SOME_USERS}, (_el, index) => createDescription(index));
 
-console.log(someUsers);
+someUsers();
