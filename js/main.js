@@ -28,27 +28,24 @@ const DESCRIPTIONS = [
 ];
 const SOME_USERS = 25;
 
+const createIdGenerator = () => {
+  let lastGenerated = 0;
+  return () => {
+    lastGenerated += 1;
+    return lastGenerated;
+  };
+};
+
+const generateCommentId = createIdGenerator();
+
+const generatePhotoId = createIdGenerator();
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
-
-function createRandomIdFromRangeGenerator(min, max) {
-  const previousValues = [];
-  let currentValue = getRandomInteger(min, max);
-  if (previousValues.length >= (max - min + 1)) {
-    // eslint-disable-next-line no-console
-    console.error(`Перебраны все числа из диапозона от ${min} до ${max}`);
-    return null;
-  }
-  while (previousValues.includes(currentValue)) {
-    currentValue = getRandomInteger(min.max);
-  }
-  previousValues.push(currentValue);
-  return currentValue;
-}
 
 const getRandomArrayElement = (elements) =>
   elements[getRandomInteger(0, elements.length - 1)];
@@ -58,7 +55,7 @@ function getRandomCommentArray() {
   let object = {};
   for (let i = 0; i < getRandomInteger(0,30); i++) {
     object = {
-      id: createRandomIdFromRangeGenerator(1,250),
+      id: generateCommentId(),
       avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
       message: getRandomArrayElement(MESSAGES),
       name: getRandomArrayElement(NAMES)
@@ -70,12 +67,12 @@ function getRandomCommentArray() {
 
 const createDescription = (index) => ({
   id: index + 1,
-  url: `photos/${createRandomIdFromRangeGenerator(1,25)}.jpg`,
+  url: `photos/${generatePhotoId()}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(5, 200),
   comments: getRandomCommentArray()
 });
 
-const someUsers = Array.from({ length: SOME_USERS}, (_el, index) => createDescription(index));
+const someUsers = () => Array.from({ length: SOME_USERS}, (_el, index) => createDescription(index));
 
-console.log(someUsers);
+someUsers();
